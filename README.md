@@ -1,0 +1,2 @@
+# optimizador
+optimizador dockerizado
