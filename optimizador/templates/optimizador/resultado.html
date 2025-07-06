@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Resultado Optimización</title>
+</head>
+<body>
+    <h1>Resultado de la Optimización</h1>
+
+    <ul>
+        <li>Cantidad producto A (Xa): {{ resultado.Xa }}</li>
+        <li>Cantidad producto B (Xb): {{ resultado.Xb }}</li>
+        <li>Beneficio total: {{ resultado.profit }}</li>
+    </ul>
+
+    <h2>Gráfica</h2>
+    <ul>
+        <img src="data:image/png;base64,{{ grafico }}" alt="Gráfica de producción">
+    </ul>
+
+    <a href="{% url 'index' %}">Volver</a>
+</body>
+</html>

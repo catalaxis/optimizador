@@ -1,0 +1,37 @@
+<h1>Optimización</h1>
+
+<form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+  <h2>Subir archivo CSV (opcional)</h2>
+  <input type="file" name="csv_file" id="csv_file"><br><br>
+  <button type="button" onclick="clearFile()">Limpiar archivo</button>
+
+  <h2>Alternativamente rellenar los campos manualmente</h2>
+
+
+
+  <label>Product_A_Production_Time_Machine_1: <input type="number" step="any" name="Ta1"></label><br>
+  <label>Product_A_Production_Time_Machine_2: <input type="number" step="any" name="Ta2"></label><br>
+  <label>Product_B_Production_Time_Machine_1: <input type="number" step="any" name="Tb1"></label><br>
+  <label>Product_B_Production_Time_Machine_2: <input type="number" step="any" name="Tb2"></label><br>
+  <label>Machine_1_Available_Hours: <input type="number" step="any" name="TM1"></label><br>
+  <label>Machine_2_Available_Hours: <input type="number" step="any" name="TM2"></label><br>
+  <label>Price_Product_A: <input type="number" step="any" name="Pa"></label><br>
+  <label>Price_Product_B: <input type="number" step="any" name="Pb"></label><br>
+
+  <button type="submit">Optimizar</button>
+</form>
+
+<script>
+function clearFile() {
+    document.getElementById('csv_file').value = "";  // Limpia el input file
+}
+</script>
+
+  {% if error %}
+  <div style="color: red; font-weight: bold; margin-bottom: 15px;">
+    {{ error }}
+  </div>
+  {% endif %}
