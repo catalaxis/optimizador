@@ -21,6 +21,7 @@ class ResultsHandler:
         return base64.b64encode(result_bytes).decode('utf-8')
     
     def generate_bar_chart_base64(self):
+        ## Necesaria para generar un gráfico de barras y convertirlo a base64
         fig, ax = plt.subplots()
         ax.bar(['Producto A', 'Producto B'], [self.Xa, self.Xb], color=['#4CAF50', '#2196F3'])
         ax.set_ylabel('Unidades a Producir')
@@ -35,12 +36,6 @@ class ResultsHandler:
         encoded = base64.b64encode(image_png).decode('utf-8')
         buffer.close()
         return encoded
-    
-    def to_csv(self):
-        output = io.StringIO()
-        output.write("Xa,Xb,Profit\n")
-        output.write(f"{self.Xa},{self.Xb},{self.profit}\n")
-        return output.getvalue()
     
     def plot_results(self):
         fig, ax = plt.subplots()

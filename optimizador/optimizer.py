@@ -3,57 +3,60 @@ import numpy as np
 from scipy.optimize import linprog
 
 class Optimizer:
-    ## Solves the optimization problem
+    ## Resuelve el siguiente problema:
     
-    ## Target fun: MAX Pa * Xa + Pb * Xb // Maximize profit
+    ## Función objetivo: MAX Pa * Xa + Pb * Xb // Maximizar utilidad
     ## SA: 
-    #   Ta1 * Xa + Tb1 * Xb <= TM1 // Subject to time constraint for machine 1
-    #   Ta2 * Xa + Tb2 * Xb <= TM2 // Subject to time constraint for machine 2
-    #   Xa >= 0, Xb >= 0 // Non-negativity constraints
+    #   Ta1 * Xa + Tb1 * Xb <= TM1 // Sujeto a la restricción de tiempo para la máquina 1
+    #   Ta2 * Xa + Tb2 * Xb <= TM2 // Sujeto a la restricción de tiempo para la máquina 2
+    #   Xa >= 0, Xb >= 0 // No negatividad de las variables
 
     ## Variables:
-    #   Ta1: Amount of product A to produce
-    #   Ta2: Amount of product B to produce
-    #   TM1: Total time available for machine 1
-    #   TM2: Total time available for machine 2
-    #   Pa: Price/Profit per unit of product A
-    #   Pb: Price/Profit per unit of product B
+    #   Ta1: Tiempo requerido para producir una unidad del producto A en la máquina 1
+    #   Ta2: Tiempo requerido para producir una unidad del producto A en la máquina 2
+    #   TM1: Tiempo total disponible para la máquina 1
+    #   TM2: Tiempo total disponible para la máquina 2
+    #   Pa: Precio/Utilidad por unidad del producto A
+    #   Pb: Precio/Utilidad por unidad del producto B
 
-    ## There is no mention of the granularity of the products, so we assume they can be produced in any amount.
-    ## This is a continuous optimization problem.
+    ## No se menciona la granularidad de los productos, por lo que asumimos que se pueden producir en cualquier cantidad.
+    ## Este es un problema de optimización continua.
 
-    ## This can be solved in many ways, but here we will use a simple linear programming approach with Scipy and Numpy.
-    ## Most of the time I just use Numpy and POT,
-    ## Pytorch or tensorflow for more complex problems.
+    ## Esto se puede resolver de muchas maneras, pero aquí utilizaremos un enfoque simple de programación lineal con Scipy y Numpy.
+    ## La mayoría de las veces solo uso Numpy y POT,
+    ## Pytorch o Tensorflow para problemas más complejos.
    
     def __init__(self, Ta1, Ta2,Tb1,Tb2, TM1, TM2, Pa, Pb):
 
-        self.Ta1, self.Ta2 = Ta1, Ta2  # Time required for products A
-        self.Tb1, self.Tb2 = Tb1, Tb2  # Time required for products B
-        self.TM1, self.TM2 = TM1, TM2  # Total time available for machines 1 and 2
-        self.Pa, self.Pb = Pa, Pb  # Prices/Profits per unit of products A and B
-        
-        self.result = None # Max result of f
-        self.Xa, self.Xb = None, None  # Variables to hold the amounts of products A and B produced
+        self.Ta1, self.Ta2 = Ta1, Ta2  # Tiempo requerido para productos A
+        self.Tb1, self.Tb2 = Tb1, Tb2  # Tiempo requerido para productos B
+        self.TM1, self.TM2 = TM1, TM2  # Tiempo total disponible para las máquinas 1 y 2
+        self.Pa, self.Pb = Pa, Pb  # Precio/Utilidad por unidad de los productos A y B
+
+        self.result = None  # Máximo resultado de f
+        self.Xa, self.Xb = None, None  # Variables para almacenar las cantidades de productos A y B producidas
     
     def solve(self):
-        # Objective function coefficients
+        # Coeficientes de la función objetivo
         c = np.array([-self.Pa, -self.Pb])
 
-        # Coefficients for the inequality constraints
+        # Coeficientes de las restricciones de desigualdad
+        # Representamos las restricciones como Ax <= b
         A = np.array([
             [self.Ta1, self.Tb1],
             [self.Ta2, self.Tb2]
         ])
 
-        # Right-hand side of the inequality constraints
+        # Límites de las restricciones
+        # TM1 y TM2 son los límites para las máquinas 1 y 2 respectivamente
         b = np.array([self.TM1, self.TM2])
 
-        # Bounds for the variables (Xa, Xb)
+        # Límites para las variables (Xa, Xb)
         x0_bounds = (0, None)  # Xa >= 0
         x1_bounds = (0, None)  # Xb >= 0
 
-        # Solve the linear programming problem
+        # Resolvemos el problema de programación lineal
+        # Usamos linprog de scipy para maximizar la función objetivo
         self.result = linprog(c, A_ub=A, b_ub=b, bounds=[x0_bounds, x1_bounds], method='highs')
         if self.result.success:
             self.Xa, self.Xb = self.result.x
