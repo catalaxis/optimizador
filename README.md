@@ -19,7 +19,7 @@ Se puede acceder a través de:
 
 http://localhost:8000/
 
-
+Por otra parte, es posible ejecutar el main.py para probar el flujo de la optimización por separado.
 
 # Optimizador
 
