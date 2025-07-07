@@ -31,10 +31,10 @@ El optimizador cumple con los requerimientos, es posible tanto cargar el archivo
     Verifica columnas requeridas, tipos numéricos y valores positivos.
 
 ### optimizer.py
-    Define la clase Optimizer que modela y resuelve el problema (por ejemplo con PuLP o SciPy).
+    Define la clase Optimizer que modela y resuelve el problema, a través de una sencilla solución utilizando numpy y programación lineal.
 
 ### result.py
-    Clase ResultsHandler para formatear resultados y generar un gráfico embebido en base64.
+    Clase ResultsHandler para formatear resultados y generar un gráfico embebido en base64 a partir de gráfico con matplotlib.
 
 ### views.py
     Solo la vista index que:
